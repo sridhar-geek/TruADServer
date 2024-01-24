@@ -39,20 +39,19 @@ const generatePassword = () => {
 export const socialLogin = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  // checking if user is already exists, if old user assign token
+  // checking if user is already exists, assign old password
   if (user) {
     const token = await user.createToken();
-    const { name, id: _id } = user._doc;
-    res.status(StatusCodes.OK).json({ name, id, token });
+    const { password: userPassword, ...userDetails } = user._doc;
+    res.status(StatusCodes.OK).json({ userDetails, token });
   }
   // if user is new to website, then create new accout
   else {
     const randomPassword = generatePassword();
     const user = User.create({ password: randomPassword, ...req.body });
     const token = await user.createToken();
-  const { password: userPassword, ...userDetails } = user._doc;
+    const { password: userPassword, ...userDetails } = user._doc;
     res.status(StatusCodes.OK).json({ userDetails, token });
-
   }
 };
 
