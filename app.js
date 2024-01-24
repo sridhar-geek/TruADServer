@@ -17,7 +17,8 @@ import { autherization } from "./middleware/autherization.js";
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: "https://trud-clien.vercel.app/",
+    // origin: 'http://localhost:5173',
   })
 );
 app.use(express.json());
@@ -48,3 +49,4 @@ const start = async () => {
 };
 
 start();
+
